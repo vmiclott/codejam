@@ -72,7 +72,7 @@ func main() {
 					res += float64(d)
 				}
 			}
-			e := int(res/float64(2) + 0.5)
+			e := int(res / float64(2))
 			fmt.Printf("E %v\n", e)
 		}
 	}
