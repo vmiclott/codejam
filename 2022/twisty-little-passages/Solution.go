@@ -38,11 +38,14 @@ func main() {
 			var R, P int
 			var count, sum int
 			var prevRoom, currRoom room
+			degrees := make(map[int]int)
 			fmt.Scanln(&R, &P)
 			prevRoom = room{r: R, p: P}
+			degrees[R] = P
 			fmt.Print("W\n")
 			fmt.Scanln(&R, &P)
 			currRoom = room{r: R, p: P}
+			degrees[R] = P
 			if less(prevRoom, currRoom) {
 				sum += prevRoom.p
 				count += 1
@@ -51,17 +54,25 @@ func main() {
 				r := rand.Intn(N) + 1
 				fmt.Printf("T %v\n", r)
 				fmt.Scanln(&R, &P)
+				sum += prevRoom.p
+				count += 1
 				prevRoom = room{r: R, p: P}
+				degrees[R] = P
 				fmt.Print("W\n")
 				fmt.Scanln(&R, &P)
 				currRoom = room{r: R, p: P}
-				if less(prevRoom, currRoom) {
-					sum += prevRoom.p
-					count += 1
+				degrees[R] = P
+			}
+			eDegree := float64(sum) / float64(count)
+			var res float64
+			for i := 0; i < N; i++ {
+				if d, ok := degrees[i+1]; !ok {
+					res += eDegree
+				} else {
+					res += float64(d)
 				}
 			}
-
-			e := int(float64(N) * float64(sum) / float64(count) / float64(2))
+			e := int(res/float64(2) + 0.5)
 			fmt.Printf("E %v\n", e)
 		}
 	}
